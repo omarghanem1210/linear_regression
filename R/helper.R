@@ -6,3 +6,14 @@ is_vector_numeric <- function(x){
 
   }
 }
+
+compute_sum <- function(x){
+  is_vector_numeric(x)
+  sum <- 0
+
+  for(element in x){
+    sum <- sum + element
+  }
+  return(sum)
+}
+
