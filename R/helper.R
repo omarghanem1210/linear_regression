@@ -17,3 +17,6 @@ compute_sum <- function(x){
   return(sum)
 }
 
+is.formula <- function(x){
+  inherits(x,'formula')
+}
