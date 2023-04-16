@@ -35,7 +35,7 @@ compute_covariance <- function(x, y){
   return(covariance)
 }
 
-confint.linear_model <- function(object, alpha, input = NULL){
+confint.linear_model <- function(object, alpha=0.05){
   t <- qt(1-alpha/2, object$SSE_df)
   mse <- object$SSE / (object$SSE_df)
   n <- object$SSE_df + 2
@@ -55,7 +55,7 @@ confint.linear_model <- function(object, alpha, input = NULL){
   return(intervals)
 }
 
-response_confint <- function(object, x, alpha){
+response_confint <- function(object, x, alpha=0.05){
   t <- qt(1-alpha/2, object$SSE_df)
   mse <- object$SSE / (object$SSE_df)
   y <- object$B_0 + object$B_1 * x

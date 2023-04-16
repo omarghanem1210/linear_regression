@@ -1,4 +1,11 @@
-linear_model <- function(equation, data){
+linear_model <- function(equation, data_set=NULL, path=NULL){
+  if(!is.null(path)){
+    data <- read.csv(path)
+  }
+  else{
+    data <- data_set
+  }
+
   if(!is.formula(equation)){
     equation = as.formula(equation)
   }
@@ -14,9 +21,10 @@ linear_model <- function(equation, data){
     is.numeric(data[variable])
   }
 
-  n <-  length(x)
   y <-  data[, variables[1]]
   x <-  data[, variables[2]]
+  n <-  length(x)
+
 
   sxx <-  compute_variance(x) * (n-1)
   syy <-  compute_variance(y) * (n-1)
