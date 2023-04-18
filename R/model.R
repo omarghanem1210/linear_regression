@@ -1,9 +1,10 @@
 linear_model <- function(equation, data_set=NULL, path=NULL){
   if(!is.null(path)){
     data <- read.csv(path)
+    data <- na.omit(data)
   }
   else{
-    data <- data_set
+    data <- na.omit(data_set)
   }
 
   if(!is.formula(equation)){
