@@ -34,3 +34,17 @@ compute_covariance <- function(x, y){
   covariance = sum / (length(x) - 1)
   return(covariance)
 }
+
+confint.linear_model <- function(object, alpha=0.05){
+  parameters <- object$B
+  standard_deviation <- diag(object$variance_covariance_matrix)^(1/2)
+
+  t <- qt(1 - alpha/2, object$df_residuals)
+  lower_bounds <- parameters - t * standard_deviation
+  upper_bounds <- parameters + t * standard_deviation
+
+  confidence_intervals <- data.frame(lower_bounds = lower_bounds,
+                                     upper_bounds = upper_bounds)
+  row.names(confidence_intervals) <- row.names(parameters)
+  return(confidence_intervals)
+}
