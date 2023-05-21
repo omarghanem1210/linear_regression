@@ -21,4 +21,9 @@ is.formula <- function(x){
   inherits(x,'formula')
 }
 
+predict.linear_model <- function(object, predictors){
+  x <- as.matrix(cbind(rep(1, nrow(predictors)), predictors))
+  predictions <- x %*% object$B
+  return(data.frame(predictions = predictions))
 
+}

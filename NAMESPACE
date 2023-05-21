@@ -1,3 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+S3method(predict,linear_model)
 S3method(confint,linear_model)
-export(confint)
+S3method(plot,linear_model)
+export(confint, predict, plot)

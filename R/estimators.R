@@ -48,3 +48,38 @@ confint.linear_model <- function(object, alpha=0.05){
   row.names(confidence_intervals) <- row.names(parameters)
   return(confidence_intervals)
 }
+
+mean_response_confint <- function(object, predictors, alpha=0.05){
+  x <- as.matrix(cbind(rep(1, nrow(predictors)), predictors))
+  predictions <- predict(object, predictors)
+
+  t <- qt(1 - alpha/2, object$df_residuals)
+  mse <- object$SSE / object$df_residuals
+  lower_bounds <- predictions - t * ((mse * x %*% solve(t(x) %*% x) %*% t(x))^(1/2))
+  upper_bounds <- predictions + t * ((mse * x %*% solve(t(x) %*% x) %*% t(x))^(1/2))
+
+  colnames(lower_bounds) <- c('mean_response_lower_bounds')
+  colnames(upper_bounds) <- c('mean_response_upper_bounds')
+
+  return(data.frame(predictions = predictions, mean_response_lower_bounds = lower_bounds,
+                    mean_response_upper_bounds = upper_bounds))
+}
+
+new_observation_confint <- function(object, predictors, alpha=0.05){
+  x <- as.matrix(cbind(rep(1, nrow(predictors)), predictors))
+  predictions <- predict(object, predictors)
+
+  t <- qt(1 - alpha/2, object$df_residuals)
+  mse <- object$SSE / object$df_residuals
+  lower_bounds <- predictions - t * ((mse * x %*% solve(t(x) %*% x) %*% t(x) + mse)^(1/2))
+  upper_bounds <- predictions + t * ((mse * x %*% solve(t(x) %*% x) %*% t(x) + mse)^(1/2))
+
+  colnames(lower_bounds) <- c('new_response_lower_bounds')
+  colnames(upper_bounds) <- c('new_response_upper_bounds')
+
+
+  return(data.frame(predictions = predictions, new_response_lower_bounds = lower_bounds,
+                    new_response_upper_bounds = upper_bounds))
+}
+
+
